@@ -29,8 +29,7 @@ jobs:
       run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
     - name: apply kustomize and deploy
       run: |
+        cd k8s
         kustomize edit set image andreasga/sfc-backend=andreasga/sfc-backend:${{ steps.vars.outputs.sha_short }}
         kustomize edit set image andreasga/sfc-frontend=andreasga/sfc-frontend:${{ steps.vars.outputs.sha_short }}
         kustomize build | kubectl apply -f -
-      with:
-        path: "./k8s"
