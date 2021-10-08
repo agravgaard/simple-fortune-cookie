@@ -4,11 +4,25 @@ on:
     branches: [ main ]
 
 jobs:
+  clone_down:
+    name: Clone down repo
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Upload Repo
+      uses: actions/upload-artifact@v2
+      with:
+        name: code
+        path: .
   deploy:
     name: Apply kustomize and deploy to k8s
     runs-on: self-hosted
     steps:
-    - uses: actions/checkout@v2
+    - name: Download code
+      uses: actions/download-artifact@v2
+      with:
+        name: code
+        path: .
     - name: change dir
       run: cd k8s
     - name: Set outputs
