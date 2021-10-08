@@ -17,6 +17,7 @@ jobs:
   deploy:
     name: Apply kustomize and deploy to k8s
     runs-on: self-hosted
+    needs: clone_down
     steps:
     - name: Download code
       uses: actions/download-artifact@v2
