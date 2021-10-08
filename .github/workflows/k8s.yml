@@ -1,0 +1,22 @@
+name: Deploy to kubernetes
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    name: Apply kustomize and deploy to k8s
+    runs-on: self-hosted
+    steps:
+    - uses: actions/checkout@v2
+    - name: change dir
+      run: cd k8s
+    - name: Set outputs
+      id: vars
+      run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+    - name: apply kustomize
+      run: kustomize edit set image andreasga/sfc-backend=andreasga/sfc-backend:${{ steps.vars.outputs.sha_short }}
+    - name: apply kustomize
+      run: kustomize edit set image andreasga/sfc-frontend=andreasga/sfc-frontend:${{ steps.vars.outputs.sha_short }}
+    - name: generate manifests and apply
+      run: kustomize build | kubectl apply -f -
