@@ -1,6 +1,8 @@
 resources:
 - frontend-deploy.yml
 - backend-deploy.yml
+- frontend-svc.yml
+- backend-svc.yml
 
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
