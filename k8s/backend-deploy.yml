@@ -20,6 +20,9 @@ spec:
       containers:
       - image: andreasga/sfc-backend:latest
         name: sfc-backend
+        env:
+        - name: REDIS_DNS
+          value: "redis"
         ports:
         - containerPort: 9000
         resources: {}
